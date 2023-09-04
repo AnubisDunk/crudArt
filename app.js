@@ -6,7 +6,7 @@ const path = require('path');
 const artRoutes = require('./routes/art-routes');
 
 dotenv.config({path: __dirname + '/.env'});
-const local = true;
+const local = false;
 if (local) {
     mongoose.connect('mongodb://localhost:27017/art');
     const db = mongoose.connection;
