@@ -1,26 +1,13 @@
 const express = require('express');
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 const app = express();
 const path = require('path');
 const artRoutes = require('./routes/art-routes');
+const { dbConnect } = require('./controllers/db-controller');
 
-dotenv.config({path: __dirname + '/.env'});
-const local = false;
-if (local) {
-    mongoose.connect('mongodb://localhost:27017/art');
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, "connection error:"));
-    db.once("open", () => {
-        console.log("Database connected");
-    });
-} else {
-    const db = process.env['MONGO_URL'];
-    mongoose
-        .connect(db)
-        .then((res) => console.log('Connected to remote DB'))
-        .catch((error) => console.log(`Error with code ${error}`));
-}
+dotenv.config({ path: __dirname + '/.env' });
+dbConnect();
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
